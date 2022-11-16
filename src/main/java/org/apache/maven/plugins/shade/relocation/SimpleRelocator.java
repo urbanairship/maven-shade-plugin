@@ -40,6 +40,11 @@ public class SimpleRelocator
     private static final Pattern RX_ENDS_WITH_DOT_SLASH_SPACE = Pattern.compile( "[./ ]$" );
 
     /**
+     * Match left-paren or space at end of string
+     */
+    private static final Pattern RX_ENDS_WITH_LPAREN_SPACE = Pattern.compile( "[( ]$" );
+
+    /**
      * Match if the start of the string when appended to a package prefix, could be a fully-qualified class name;
      */
     private static final Pattern RX_STARTS_WITH_DOT_WORD = Pattern.compile( "^([.][a-zA-Z]\\w*)+\\b" );
@@ -292,7 +297,9 @@ public class SimpleRelocator
                 boolean afterDotSlashSpace = RX_ENDS_WITH_DOT_SLASH_SPACE.matcher( previousSnippetOneLine ).find();
                 boolean afterJavaKeyWord = RX_ENDS_WITH_JAVA_KEYWORD.matcher( previousSnippetOneLine ).find();
                 boolean beforeDotWord = RX_STARTS_WITH_DOT_WORD.matcher( snippet ).find();
-                boolean shouldExclude = doExclude || ( afterDotSlashSpace && !( afterJavaKeyWord || beforeDotWord ) );
+                boolean afterLParenSpace = RX_ENDS_WITH_LPAREN_SPACE.matcher( previousSnippetOneLine ).find();
+                boolean shouldExclude = doExclude
+                        || ( afterDotSlashSpace && !( afterJavaKeyWord || ( beforeDotWord && afterLParenSpace ) ) );
                 shadedSourceContent.append( shouldExclude ? patternFrom : patternTo ).append( snippet );
             }
         }
