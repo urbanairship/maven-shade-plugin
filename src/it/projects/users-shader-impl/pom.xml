@@ -53,13 +53,13 @@ under the License.
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <groupId>com.urbanairship.maven</groupId>
+        <artifactId>shade-maven-plugin</artifactId>
         <version>@project.version@</version>
         <dependencies>
           <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
+            <groupId>com.urbanairship.maven</groupId>
+            <artifactId>shade-maven-plugin</artifactId>
             <version>@project.version@</version>
             <classifier>tests</classifier>
           </dependency>

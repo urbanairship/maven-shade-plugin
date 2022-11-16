@@ -34,13 +34,13 @@ under the License.
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <groupId>com.urbanairship.maven</groupId>
+        <artifactId>shade-maven-plugin</artifactId>
         <version>3.2.2</version><!-- last version of maven-shade-plugin without the new ReproducibleResourceTransformer interface -->
         <dependencies>
           <dependency><!-- tests.jar adds an extra ResourceTransformer released a few years ago, with the missing ReproducibleResourceTransformer interface -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
+            <groupId>com.urbanairship.maven</groupId>
+            <artifactId>shade-maven-plugin</artifactId>
             <version>@project.version@</version>
             <classifier>tests</classifier>
           </dependency>

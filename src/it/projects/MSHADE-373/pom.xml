@@ -35,8 +35,8 @@ under the License.
   <dependencies>
     <dependency>
       <!-- dummy dependency to test interaction of multiple manifests -->
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-shade-plugin</artifactId>
+      <groupId>com.urbanairship.maven</groupId>
+      <artifactId>shade-maven-plugin</artifactId>
       <version>@project.version@</version>
     </dependency>
   </dependencies>
@@ -75,8 +75,8 @@ under the License.
         <version>2.2</version>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <groupId>com.urbanairship.maven</groupId>
+        <artifactId>shade-maven-plugin</artifactId>
         <version>@project.version@</version>
         <executions>
           <execution>
