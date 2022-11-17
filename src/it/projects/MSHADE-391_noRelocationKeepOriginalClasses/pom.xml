@@ -47,8 +47,8 @@ under the License.
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
+                <groupId>com.urbanairship.maven</groupId>
+                <artifactId>shade-maven-plugin</artifactId>
                 <!-- Replace the version by 3.2.4 or something older in order to see it fail -->
                 <version>@project.version@</version>
                 <executions>
