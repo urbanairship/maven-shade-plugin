@@ -31,7 +31,7 @@
 
   <groupId>com.urbanairship.maven</groupId>
   <artifactId>shade-maven-plugin</artifactId>
-  <version>3.4.1-air-1-SNAPSHOT</version>
+  <version>3.4.1-air-4</version>
   <packaging>maven-plugin</packaging>
 
   <name>Airship Maven Shade Plugin</name>
@@ -48,7 +48,7 @@
     <connection>scm:git:git@github.com:urbanairship/shade-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:urbanairship/shade-maven-plugin.git</developerConnection>
     <url>https://github.com/urbanairship/shade-maven-plugin/tree/${project.scm.tag}</url>
-    <tag>HEAD</tag>
+    <tag>3.4.1-air-4</tag>
   </scm>
 
   <distributionManagement>
