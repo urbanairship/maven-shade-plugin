@@ -58,10 +58,14 @@
     <url>https://ci-maven.apache.org/job/Maven/job/maven-box/job/maven-shade-plugin/</url>
   </ciManagement>
   <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>scm:svn:https://svn.apache.org/repos/asf/maven/website/components/${maven.site.path}</url>
-    </site>
+    <repository>
+      <id>releases</id>
+      <url>gs://airship-maven-artifacts/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshot</id>
+      <url>gs://airship-maven-artifacts/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <properties>
@@ -271,6 +275,28 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
@@ -388,60 +414,6 @@
             </configuration>
           </plugin>
         </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>airship</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <distributionManagement>
-        <repository>
-          <id>releases</id>
-          <url>gs://airship-maven-artifacts/releases</url>
-        </repository>
-        <snapshotRepository>
-          <id>snapshot</id>
-          <url>gs://airship-maven-artifacts/snapshots</url>
-        </snapshotRepository>
-      </distributionManagement>
-      <repositories>
-        <repository>
-          <id>airship-releases</id>
-          <url>gs://airship-maven-artifacts/releases</url>
-        </repository>
-        <repository>
-          <id>airship-thirdparty</id>
-          <url>gs://airship-maven-artifacts/thirdparty</url>
-        </repository>
-      </repositories>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-gpg-plugin</artifactId>
-              <configuration>
-                <skip>true</skip>
-              </configuration>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-              <version>3.3.0</version>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <version>3.3.0</version>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-invoker-plugin</artifactId>
-              <version>3.3.0</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
       </build>
     </profile>
   </profiles>
