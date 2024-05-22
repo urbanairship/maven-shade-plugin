@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>maven-shade-plugin</artifactId>
-  <version>3.4.1</version>
+  <version>3.4.1-air-9-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Apache Maven Shade Plugin</name>
@@ -44,10 +44,10 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-shade-plugin.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-shade-plugin.git</developerConnection>
-    <url>https://github.com/apache/maven-shade-plugin/tree/${project.scm.tag}</url>
-    <tag>maven-shade-plugin-3.4.1</tag>
+    <connection>scm:git:git@github.com:urbanairship/maven-shade-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:urbanairship/maven-shade-plugin.git</developerConnection>
+    <url>https://github.com/urbanairship/maven-shade-plugin/tree/${project.scm.tag}</url>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -58,10 +58,14 @@
     <url>https://ci-maven.apache.org/job/Maven/job/maven-box/job/maven-shade-plugin/</url>
   </ciManagement>
   <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>scm:svn:https://svn.apache.org/repos/asf/maven/website/components/${maven.site.path}</url>
-    </site>
+    <repository>
+      <id>releases</id>
+      <url>gs://airship-maven-artifacts/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshot</id>
+      <url>gs://airship-maven-artifacts/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <properties>
@@ -71,7 +75,7 @@
     <currentVersion>${project.version}</currentVersion>
     <asmVersion>9.4</asmVersion>
     <slf4j.version>1.7.32</slf4j.version>
-    <project.build.outputTimestamp>2022-10-21T20:02:32Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-10-21T20:02:58Z</project.build.outputTimestamp>
   </properties>
 
   <contributors>
@@ -261,8 +265,37 @@
   </dependencies>
 
   <build>
+    <extensions>
+      <extension>
+        <groupId>com.gkatzioura.maven.cloud</groupId>
+        <artifactId>google-storage-wagon</artifactId>
+        <version>1.7</version>
+      </extension>
+    </extensions>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>

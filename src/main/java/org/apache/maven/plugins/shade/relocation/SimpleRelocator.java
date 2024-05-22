@@ -40,6 +40,11 @@ public class SimpleRelocator
     private static final Pattern RX_ENDS_WITH_DOT_SLASH_SPACE = Pattern.compile( "[./ ]$" );
 
     /**
+     * Match space at end of string
+     */
+    private static final Pattern RX_ENDS_WITH_SPACE = Pattern.compile( " $" );
+
+    /**
      * Match <ul>
      *     <li>certain Java keywords + space</li>
      *     <li>beginning of Javadoc link + optional line breaks and continuations with '*'</li>
@@ -47,10 +52,24 @@ public class SimpleRelocator
      * at end of string
      */
     private static final Pattern RX_ENDS_WITH_JAVA_KEYWORD = Pattern.compile(
-        "\\b(import|package|public|protected|private|static|final|synchronized|abstract|volatile) $"
+        "\\b(import|package|public|protected|private|static|final|synchronized|abstract|volatile|new|extends"
+            + "|implements|throws) $"
             + "|"
             + "\\{@link( \\*)* $"
     );
+
+    /**
+     * Match if the string could be a valid fully-qualified class name;
+     */
+    private static final Pattern JAVA_NAME = Pattern.compile(
+            "((\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)+"
+                    + "(\\.\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)?)"
+    );
+
+    /**
+     * Match if the start of the string when appended to a package prefix, could be a fully-qualified class name;
+     */
+    private static final Pattern STARTS_WITH_DOT_NAME = Pattern.compile( "^[.]" + JAVA_NAME.pattern() + "\\b" );
 
     private final String pattern;
 
@@ -283,10 +302,20 @@ public class SimpleRelocator
             }
             else
             {
-                String previousSnippetOneLine = previousSnippet.replaceAll( "\\s+", " " );
-                boolean afterDotSlashSpace = RX_ENDS_WITH_DOT_SLASH_SPACE.matcher( previousSnippetOneLine ).find();
-                boolean afterJavaKeyWord = RX_ENDS_WITH_JAVA_KEYWORD.matcher( previousSnippetOneLine ).find();
-                boolean shouldExclude = doExclude || afterDotSlashSpace && !afterJavaKeyWord;
+
+                boolean shouldExclude = doExclude;
+                if ( !shouldExclude )
+                {
+                    String previousSnippetOneLine = previousSnippet.replaceAll( "\\s+", " " );
+                    boolean afterDotSlashSpace = RX_ENDS_WITH_DOT_SLASH_SPACE.matcher( previousSnippetOneLine ).find();
+                    if ( afterDotSlashSpace )
+                    {
+                        boolean afterJavaKeyWord = RX_ENDS_WITH_JAVA_KEYWORD.matcher( previousSnippetOneLine ).find();
+                        boolean afterSpace = RX_ENDS_WITH_SPACE.matcher( previousSnippetOneLine ).find();
+                        boolean beforeDotName = STARTS_WITH_DOT_NAME.matcher( snippet ).find();
+                        shouldExclude = !( afterJavaKeyWord || ( afterSpace && beforeDotName ) );
+                    }
+                }
                 shadedSourceContent.append( shouldExclude ? patternFrom : patternTo ).append( snippet );
             }
         }
